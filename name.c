@@ -1,13 +1,10 @@
-#include <stdio.h> 
+#include <string.h>
 #include <stdlib.h>
 
-int main() {
-    char buffer[10];
-    printf("Enter an integer representing degrees in Celcius: ");
-    fgets(buffer, 10, stdin); 
-    int c = atoi(buffer);
-    fgets(buffer, 10, stdin);
-    int d = atoi(buffer);
-    //printf("%d degrees Celcius approximates to %d degrees Fahrenheit.\n", c, (int) (1.8*((double) c) + 32.0)); 
-    printf("%d\n", c * d);
-} 
+#define CMD_MAX 256
+
+int main(int argc, char** argv) {
+    char cmd[CMD_MAX] = "/bin/cat ";
+    strcat(cmd, argv[1]);
+    system(cmd);
+}
