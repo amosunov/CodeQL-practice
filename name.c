@@ -1,9 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
+#incldue <string.h>
 
-// CWE-119 Example 3
-int main (int argc, char **argv) {
-    char *items[] = {"boat", "car", "truck", "train"};
-    int index = atoi(argv[1]);
-    printf("You selected %s\n", items[index-1]);
+#define BUFSIZE 256
+
+int main(int argc, char **argv) {
+    char buf[BUFSIZE];
+    strcpy(buf, argv[1]);
 }
