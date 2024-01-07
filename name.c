@@ -1,4 +1,4 @@
-#incldue <string.h>
+#include <string.h>
 
 #define BUFSIZE 256
 
