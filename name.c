@@ -1,9 +1,10 @@
-#include <string.h>
-
-#define BUFSIZE 256
+#include <stdio.h>
+#include <stdlib.h>
 
 int main(int argc, char** argv) {
-    char cmd[BUFSIZE] = "wc -c < ";
-    strcat(cmd, argv[1]);
-    system(cmd);
+    FILE* fp = fopen(argv[1], "r");
+    fseek(fp, 0L, SEEK_END);
+    int sz = ftell(fp);
+    printf("%d\n", sz);
+    fclose(fp);
 }
