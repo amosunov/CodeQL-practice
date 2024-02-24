@@ -1,2 +1,2 @@
 all:
-	gcc -o main size.c
+	gcc -o main name.c
