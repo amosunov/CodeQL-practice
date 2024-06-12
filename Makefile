@@ -1,2 +1,2 @@
 all:
-	gcc -o main filesize.c
+	gcc -o main sample.c
