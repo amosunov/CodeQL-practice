@@ -1,33 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+#define BUFSIZE 256
 
 int main(int argc, char** argv) {
     if (argc != 2) {
-        fprintf(stderr, "error\n");
+        fprintf(stderr, "Error\n");
         return -1; 
     }   
 
-    FILE *file = fopen(argv[1], "rb");
-    if (file == NULL) {
-        perror("Error\n");
+    char* filename = argv[1];
+
+    FILE* fp = fopen(filename, "r");
+ 
+    if (fp == NULL) {
+        fprintf(stderr, "Error\n");
         return -1; 
     }   
 
-    if (fseek(file, 0, SEEK_END) != 0) {
-        perror("Error\n");
-        fclose(file);
+    if (fclose(fp) != 0) {
+        fprintf(stderr, "Error\n");
         return -1; 
     }   
 
-    long fileSize = ftell(file);
-    if (fileSize == -1) {
-        perror("Error\n");
-        fclose(file);
-        return -1; 
-    }   
-
-    fclose(file);
-
-    printf("Size of the file is: %ld bytes\n", fileSize);
+    char cmd[BUFSIZE] = "wc -c < ";
+    strncat(cmd, filename, BUFSIZE);
+    system(cmd);
     return 0;
 }
