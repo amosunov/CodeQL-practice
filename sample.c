@@ -1,27 +1,45 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-                                
+#include <sys/stat.h>
+#include <fcntl.h>
+
 #define BUFSIZE 256
-                                
 
-// This program prints the size of a specified file in bytes
-int main(int argc, char** argv) {
-    // Ensure that the user supplied exactly one command line argument
-    if (argc != 2) { 
-      fprintf(stderr, "Please provide the address of a file as an input.\n");
-      return -1;
+#define ALLOWED_CHARS "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/_-. <>"
+
+void
+sanitize_path(char  *path) {
+    char *p = path;
+
+    while(*p) {
+        if (!strchr(ALLOWED_CHARS, *p)) {
+            *p = '_'; // replace disallowed characters with underscore
     }
-    char cmd[BUFSIZE] = "wc -c < ";
+    p++;
+    }
+}
 
-	if (cmd<=0){
-		printf("Incorrect file size");
-		break;
-	}
-	else
-	{
-		strcat(cmd, argv[1]);
-		system(cmd);
-	}
-    
+int main(int argc, char ** argv) {
+    if  (argc != 2) {
+        fprintf(stderr, "Please provide the address of a file as an input.\n");
+        return -1;
+    }
+
+    char sanitized_path[BUFSIZE];
+
+    strncpy(sanitized_path, argv[1], BUFSIZE - 1);
+
+    sanitized_path[BUFSIZE - 1] = '\0';
+
+    struct stat st;
+
+    if (stat(sanitized_path, &st) < 0) {
+        perror("stat");
+        return -1;
+    }
+
+    printf("%ld\n", (long) st.st_size);
+
+    return 0;
 }
